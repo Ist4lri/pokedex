@@ -1,0 +1,1 @@
+pokedex in progress. simply open the html page, and see.
