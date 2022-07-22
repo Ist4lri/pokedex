@@ -1,44 +1,47 @@
+function buttonDisable(condition){
+    document
+        .getElementById('searchPokemon')
+        .disabled = condition;
+}
+
 function main() {
+
+    buttonDisable(true);
 
     const pokemonNameElement = document.getElementById("requestPokemon");
 
-    const bla = document.getElementById("name");
+    document.getElementById("requestPokemon").addEventListener('keypress', buttonDisable(false));
 
-    const selectorButton = document.getElementById("searchPokemon");
+   document
+        .getElementById("searchPokemon")
+        .addEventListener('click', async function(event){
 
-    selectorButton.addEventListener('click', async function(event){
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonNameElement.value);
-        if(response.ok === false) {
-            // handle errors here
-            throw new Error("Ce pokémon n'existe pas");
-        }
-        const pokemon = await response.json();
-        document
-            .getElementById("name")
-            .innerText = "Nom : " + pokemon.name;
-        document
-            .getElementById("weight")
-            .innerText = "Il fait " + pokemon.weight + "g";
-        document
-            .getElementById("type")
-            .innerText = "Il est de type(s) " + pokemon.types[0].type.name;
+            const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonNameElement.value);
+           
+            if(response.ok === false) {
 
-        pokemon.types.map((oneType) => {
-            console.log(`${pokemon.name} est de type ${oneType.type.name}`);
-        })
+                document
+                    .getElementById("exist")
+                    .innerHTML = "<strong>Ce pokémon n'existe pas. Ou il est écrit en français...</strong>";
+            }
+
+            const pokemon = await response.json();
+            
+            document
+                .getElementById("name")
+                .innerText = "Nom : " + pokemon.name;
+            document
+                .getElementById("weight")
+                .innerText = "Il fait " + pokemon.weight + "g";
+            document
+                .getElementById("type")
+                .innerText = "Il est de type(s) " + pokemon.types.map((singleType) => singleType.type.name + " ")
         
-        console.log({pokemon});
     });
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    try {
-        main();
-    } catch(e) {
-        document
-              .getElementById("weight")
-             .innerText = "Oula y'a un soucis !"
-    }
+    main();    
 });
 
   
