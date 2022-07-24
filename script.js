@@ -4,6 +4,7 @@ function disableButton(option){
 
 function main() {
 
+
     const pokemonNameElement = document.getElementById("requestPokemon");
 
     document.getElementById("requestPokemon").addEventListener('input', function(e){
@@ -13,8 +14,7 @@ function main() {
             disableButton(false);
         }
     });
-
-   document
+        document
         .getElementById("searchPokemon")
         .addEventListener('click', async function(event){
 
