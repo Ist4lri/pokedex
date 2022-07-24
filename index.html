@@ -9,11 +9,11 @@
     <body>
         <h1 class="pres">Bienvenue sur le Pokédex !</h1>
         <P class="pres">Ceci est un petit pokédex, effectué avec une API. Vous pouvez retrouver cette API en cliquant sur ce <a href="https://pokeapi.co/" title="PokéAPI" target="_blank">lien</a></P>
-        <p class="pres">Pour utiliser ce pokédex, Entrez le nom anglais du pokémon dont vous voulez avoir les informations, et il apparaitra sur la partie centrale de l'écran.</p>
+        <p class="pres">Pour utiliser ce pokédex, entrez le nom anglais du pokémon dont vous voulez avoir les informations, et il apparaitra sur la partie centrale de l'écran.</p>
     <nav>
         <div id="request">
             <label>Entrez un nom de Pokémon : <input type="text" id="requestPokemon"></label>
-            <button id="searchPokemon">Search</button>
+            <button id="searchPokemon" disabled="true">Search</button>
             <br>
             <div id="exist"></div>
         </div>
@@ -22,6 +22,7 @@
         <h2 id="name"></h2>
         <h3 id="type"></h3>
         <h4 id="weight"></h4>
+        <img id="image" src="">
     </section>
     </body>
 </html>
