@@ -1,1 +1,3 @@
-pokedex in progress. simply open the html page, and see.
+Pokedex Ended. This is the result :
+
+![plot](presentationImage.jpg)
