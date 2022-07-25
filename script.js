@@ -36,9 +36,7 @@ document
 
 async function stringQuery(){
     const url = (new URL(document.location)).searchParams;
-    console.log({url});
     const pokemon = await fetchPokemon(url.get('id'));
-    console.log({pokemon});
     updatePokedex(pokemon);
 }
 
@@ -55,5 +53,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
     stringQuery();
     main();    
 });
-
-  
