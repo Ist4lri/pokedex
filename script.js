@@ -1,98 +1,65 @@
-function disableButton(option){
-    document.getElementById("searchPokemon").disabled = option;
+function disableButton(){
+    if(/^[A-Za-z]{3,}$/.test(e.target.value) !== false){
+        document.getElementById("searchPokemon").disabled = false;
+    }
 }
+function testIfError(params) {
 
-async function stringQuery(){
-    const isQueryString = window.location.href.indexOf('?');
-    
-    if (isQueryString !== -1){
-        
-        const queryString = window.location.href.substring(isQueryString + 1);
-        var valuePokemon = new URLSearchParams(queryString).get("value");
-
-        console.log({valuePokemon});
-        
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + valuePokemon);
-           
-            if(response.ok === false) {
-                document
-                    .getElementById("exist")
-                    .innerHTML = "<strong>Ce pokémon n'existe pas. Ou il est écrit en français...</strong>";
-            } else {
-                document
-                    .getElementById("exist")
-                    .innerHTML = "";
-            }
-
-            const pokemon = await response.json();
-
-            document
-                .getElementById("image")
-                .setAttribute("src", pokemon.sprites.front_default);
-            document
-                .getElementById("name")
-                .innerText = "Nom : " + pokemon.name;
-            document
-                .getElementById("weight")
-                .innerText = "Il fait " + pokemon.weight + "g";
-            document
-                .getElementById("type")
-                .innerText = "Il est de type(s) " + pokemon.types.map((singleType) => singleType.type.name + " ")
-            document
-                .getElementById("pokeId")
-                .innerText = "ID du pokémon : " + pokemon.id;
+    if (params.ok === false) {
+        throw new Error("Ce pokémon n'existe pas");
     }
 
 }
+async function resultAPI(params){
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + params);
+
+            testIfError(response);
+            
+            return await response.json();
+}
+function updatePokedex(pokemon){
+    document
+    .getElementById("image")
+    .setAttribute("src", pokemon.sprites.front_default);
+document
+    .getElementById("name")
+    .innerText = "Nom : " + pokemon.name;
+document
+    .getElementById("weight")
+    .innerText = "Il fait " + pokemon.weight + "g";
+document
+    .getElementById("type")
+    .innerText = "Il est de type(s) " + pokemon.types.map((singleType) => singleType.type.name + " ")
+document
+    .getElementById("pokeId")
+    .innerText = "ID du pokémon : " + pokemon.id;
+}
+
+function stringQuery(){
+    const isQueryString = window.location.href.indexOf('?'); // (URL)
+    
+    if (isQueryString === -1){ // faire l'inverse
+        
+        return "undefined"; // a faire en fonction
+    }
+
+    const queryString = window.location.href.substring(isQueryString + 1); //supr ça et balancer directement dans le .get()
+        var valuePokemon = new URLSearchParams(queryString).get("value");
+
+        console.log({valuePokemon});
+
+} 
 
 function main() {
 
 
     const pokemonNameElement = document.getElementById("requestPokemon");
 
-    document.getElementById("requestPokemon").addEventListener('input', function(e){
-        if(/^[A-Za-z]{3,}$/.test(e.target.value) === false){
-            disableButton(true);
-        } else {
-            disableButton(false);
-        }
-    });
-        document
-        .getElementById("searchPokemon")
-        .addEventListener('click', async function(event){
-
-            const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonNameElement.value);
-           
-            if(response.ok === false) {
-                document
-                    .getElementById("exist")
-                    .innerHTML = "<strong>Ce pokémon n'existe pas. Ou il est écrit en français...</strong>";
-            } else {
-                document
-                    .getElementById("exist")
-                    .innerHTML = "";
-            }
-
-            const pokemon = await response.json();
-
-            document
-                .getElementById("image")
-                .setAttribute("src", pokemon.sprites.front_default);
-            document
-                .getElementById("name")
-                .innerText = "Nom : " + pokemon.name;
-            document
-                .getElementById("weight")
-                .innerText = "Il fait " + pokemon.weight + "g";
-            document
-                .getElementById("type")
-                .innerText = "Il est de type(s) " + pokemon.types.map((singleType) => singleType.type.name + " ")
-            document
-                .getElementById("pokeId")
-                .innerText = "ID du pokémon : " + pokemon.id;
+    document.getElementById("requestPokemon").addEventListener('input', disableButton());
         
-    });
-}
+    document.getElementById("searchPokemon").addEventListener('click', updatePokedex(resultAPI(pokemonNameElement.value)){
+        
+});
 
 document.addEventListener("DOMContentLoaded", function(event) {
     stringQuery();
