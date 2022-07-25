@@ -1,10 +1,11 @@
+/*
 function disableButton(){
     console.log("+1");
     if(/^[A-Za-z]{3,}$/.test(document.getElementById("requestPokemon")) !== false){
         document.getElementById("searchPokemon").disableButton = true;
     }
 }
-
+*/
 async function fetchPokemon(pokemonNameOrId){
     const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + pokemonNameOrId);
     if (response.ok === false) { 
@@ -33,19 +34,13 @@ document
     .setAttribute("src", pokemon.sprites.front_default);
 }
 
-function stringQuery(){
-    const isQueryString = window.location.href.indexOf('?'); // (URL)
-    
-    if (isQueryString === -1){
-        return undefined;
-    }
-
-    const queryString = window.location.href.substring(isQueryString + 1); //supr ça et balancer directement dans le .get()
-    var valuePokemon = new URLSearchParams(queryString).get("value");
-
-        console.log({valuePokemon});
-
-} 
+async function stringQuery(){
+    const url = (new URL(document.location)).searchParams;
+    console.log({url});
+    const pokemon = await fetchPokemon(url.get('id'));
+    console.log({pokemon});
+    updatePokedex(pokemon);
+}
 
 function main() {
     const pokemonNameElement = document.getElementById("requestPokemon");
